@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ser.bal.pyro.pyroController">
+   <children>
+      <Button fx:id="iniKeithley2700Button" layoutX="80.0" layoutY="60.0" mnemonicParsing="false" onAction="#initializeKeithley2700" prefHeight="25.0" prefWidth="75.0" text="Initialize" />
+      <Button fx:id="iniKeithley6514Button" layoutX="180.0" layoutY="60.0" mnemonicParsing="false" onAction="#initializeKeithley6514" prefHeight="25.0" prefWidth="75.0" text="Initialize" />
+      <Label layoutX="78.0" layoutY="20.0" text="Keithley 2700">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="178.0" layoutY="20.0" text="Keithley 6514">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Separator layoutX="300.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="0.0" />
+      <Separator layoutY="500.0" prefHeight="0.0" prefWidth="300.0" />
+      <LineChart fx:id="lineChart" layoutX="320.0" layoutY="27.0" prefHeight="449.0" prefWidth="650.0">
+        <xAxis>
+          <NumberAxis side="BOTTOM" fx:id="xAxis" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="yAxis" side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <Button fx:id="reKeithley2700Button" layoutX="80.0" layoutY="90.0" mnemonicParsing="false" onAction="#releaseKeithley2700" prefHeight="25.0" prefWidth="75.0" text="Release" />
+      <Button fx:id="reKeithley6514Button" layoutX="180.0" layoutY="90.0" mnemonicParsing="false" onAction="#releaseKeithley6514" prefHeight="25.0" prefWidth="75.0" text="Release" />
+      <Rectangle fx:id="keythley2700rec" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="5.0" layoutX="78.0" layoutY="45.0" stroke="BLACK" strokeType="INSIDE" width="75.0" />
+      <Rectangle fx:id="keythley6514rec" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="5.0" layoutX="178.0" layoutY="45.0" stroke="BLACK" strokeType="INSIDE" width="75.0" />
+      <Button fx:id="startButton" layoutX="30.0" layoutY="350.0" mnemonicParsing="false" onAction="#start" prefHeight="50.0" prefWidth="75.0" text="Start" />
+      <Button fx:id="pauseButton" layoutX="190.0" layoutY="350.0" mnemonicParsing="false" onAction="#pause" prefHeight="50.0" prefWidth="75.0" text="Pause" />
+      <Button fx:id="stopButton" layoutX="110.0" layoutY="350.0" mnemonicParsing="false" onAction="#stop" prefHeight="50.0" prefWidth="75.0" text="Stop" />
+      <Separator layoutY="275.0" prefHeight="0.0" prefWidth="300.0" />
+      <Separator layoutY="420.0" prefHeight="0.0" prefWidth="300.0" />
+      <Button fx:id="saveFile" layoutX="30.0" layoutY="290.0" mnemonicParsing="false" onAction="#selectFile" prefHeight="25.0" prefWidth="75.0" text="Save File" />
+      <Label fx:id="statusLabel" layoutX="10.0" layoutY="502.0" text="Status:" />
+      <TextField fx:id="saveFileTexT" layoutX="110.0" layoutY="290.0" prefHeight="25.0" prefWidth="155.0" />
+      <Label layoutX="58.0" layoutY="426.0" text="Measurement speed (K/min):">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelSpeed" layoutX="115.0" layoutY="447.0" text="0 K/mim">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="125.0" text="Port:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="sampleArea" layoutX="140.0" layoutY="193.0" prefHeight="25.0" prefWidth="75.0" text="1" />
+      <TextField fx:id="sampleThickness" layoutX="140.0" layoutY="223.0" prefHeight="25.0" prefWidth="75.0" text="1" />
+      <Label layoutX="65.0" layoutY="169.0" text="Sample parameters">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="65.0" layoutY="198.0" text="Area:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="65.0" layoutY="228.0" text="Thickness:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="220.0" layoutY="198.0" text="mm">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="220.0" layoutY="228.0" text="mm">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="244.0" layoutY="188.0" text="2">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label layoutX="10.0" layoutY="482.0" text="Values:" />
+      <Separator layoutY="480.0" prefHeight="0.0" prefWidth="300.0" />
+      <Label fx:id="labelK" layoutX="80.0" layoutY="482.0" prefHeight="17.0" prefWidth="45.0" text="0 K" />
+      <Label fx:id="labelA" layoutX="160.0" layoutY="482.0" prefHeight="17.0" prefWidth="45.0" text="0 A" />
+      <Separator layoutY="155.0" prefHeight="0.0" prefWidth="300.0" />
+      <Separator layoutY="330.0" prefHeight="0.0" prefWidth="300.0" />
+      <Separator layoutX="300.0" layoutY="500.0" orientation="VERTICAL" prefHeight="20.0" prefWidth="0.0" />
+      <ChoiceBox fx:id="portChoiceBar1" layoutX="80.0" layoutY="120.0" prefHeight="25.0" prefWidth="75.0" />
+      <ChoiceBox fx:id="portChoiceBar2" layoutX="180.0" layoutY="120.0" prefHeight="25.0" prefWidth="75.0" />
+   </children>
+</AnchorPane>
