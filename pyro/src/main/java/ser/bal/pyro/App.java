@@ -27,7 +27,7 @@ public class App extends Application {
     	Parent root = FXMLLoader.load(getClass().getResource("Launcher.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Pyrocurrent Program v1.01");
+		primaryStage.setTitle("Pyrocurrent Program v1.05");
 		primaryStage.setResizable(false);
 		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("pyroImage.png")));
 		primaryStage.show();

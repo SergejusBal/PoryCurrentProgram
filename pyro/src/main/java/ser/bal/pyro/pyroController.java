@@ -116,8 +116,11 @@ public class pyroController {
 		 
 		 xAxis.setStyle("-fx-font-size: 16px; -fx-font-family: 'Times New Roman';  -fx-font-style: italic;");
 		 xAxis.setLabel("Temperature, K");
+		 xAxis.setAutoRanging(true);
+
 		 yAxis.setStyle("-fx-font-size: 16px; -fx-font-family: 'Times New Roman';  -fx-font-style: italic;");
 		 yAxis.setLabel("Current, nA");
+		 yAxis.setAutoRanging(true);
 		 ArrayList <String> allPorts = RS232coms.scanPorts();
 		 
 		 portChoiceBar1.getItems().addAll(allPorts);
@@ -190,7 +193,7 @@ public class pyroController {
             								   sampleAreaV+" mm^2 "+sampleThicknessV+" mm\n\n");
             			
             			
-            			writer.append((double)time/1000 +" "+temp+" "+curr+"\n");
+            			writer.append((double)time/1000 + " " + temp + " " + curr +"\n");
             			writer.close();
             			info = false;
             		} 
@@ -309,13 +312,24 @@ public class pyroController {
 			try {			
 				port2700V = portChoiceBar1.getValue().toString();			
 				}
-				catch(Exception ex) {
+				catch(NullPointerException ex) {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error");
+					alert.setHeaderText("No port selected!");
+					alert.showAndWait();
+					releaseKeithley2700();
+				}catch(Exception ex) {
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Error");
 					alert.setHeaderText("Unknown Error: "+ex.toString());
 					alert.showAndWait();
 					releaseKeithley2700();
-				}		
+				}
+
+		if(port2700V == null){
+			releaseKeithley2700();
+			return;
+		}
 
 		keithley2700 = new RS232coms(port2700V);
 		//Separate tread for RS232 communication.
@@ -357,6 +371,8 @@ public class pyroController {
 	//____________________________________________________
 	//Releases Keithley2700 to reset parameters
 	public void releaseKeithley2700() {
+		if (running) stop();
+		if(keithley2700 != null) keithley2700.write("SYST:lOC\n");
 		portChoiceBar1.setDisable(false);	
 		statusLabel.setText("Status: Keithley2700 is released");
 		keythley2700rec.setFill(Color.RED);
@@ -366,8 +382,8 @@ public class pyroController {
 		stopButton.setDisable(true);
 		pauseButton.setDisable(true);
 		inK2700 = false;
-		if (running) stop();
-		keithley2700.write("SYST:lOC\n");
+
+
     	 
 	}
 	
@@ -388,13 +404,25 @@ public class pyroController {
 				
 				port6514V = portChoiceBar2.getValue().toString();		
 				}
-			catch(Exception ex) {
+			catch(NullPointerException ex) {
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Error");
-					alert.setHeaderText("Unknown Error: "+ex.toString());
+					alert.setHeaderText("No port selected!");
 					alert.showAndWait();
 					releaseKeithley6514();
-				}
+			}catch(Exception ex) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("Unknown Error: "+ex.toString());
+				alert.showAndWait();
+				releaseKeithley6514();
+			}
+
+		if(port6514V == null){
+			releaseKeithley6514();
+			return;
+		}
+
 		keithley6514 = new RS232coms(port6514V);
 		//Separate tread for RS232 communication.
 		Task<Void> task = new Task<Void>() {
@@ -436,7 +464,9 @@ public class pyroController {
 	
 	//____________________________________________________
 	//Releases Keithley2700 to reset parameters
-	public void releaseKeithley6514() {		
+	public void releaseKeithley6514() {
+		if (running) stop();
+		if(keithley6514 != null) keithley6514.write("SYST:lOC\n");
 		portChoiceBar2.setDisable(false);
 		statusLabel.setText("Status: Keithley6514 is released");
 		keythley6514rec.setFill(Color.RED);
@@ -446,7 +476,7 @@ public class pyroController {
 		stopButton.setDisable(true);
 		pauseButton.setDisable(true);
 		inK6514 = false;
-		if (running) stop();
-		keithley6514.write("SYST:lOC\n");
+
+
 	}
 }

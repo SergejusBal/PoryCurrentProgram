@@ -48,7 +48,7 @@ public class RS232coms {
 		return ports;
 	 }
 	
-	public String quary(String command) {
+	public synchronized String quary(String command) {
 		 StringBuilder response = new StringBuilder();
 		 SerialPort serialPort = null;
 	 
@@ -132,7 +132,7 @@ public class RS232coms {
 		   	 
      }
 
-	public void write(String command) {
+	public synchronized void write(String command) {
 		  
 		 SerialPort serialPort = null;
 		 try {
@@ -155,26 +155,52 @@ public class RS232coms {
 						
 								
 				} catch (NoSuchPortException e) {
-		            System.err.println("Port " + portName + " not found.");
-		        } catch (PortInUseException e) {
-		            System.err.println("Port " + portName + " is in use.");
-		        } catch (UnsupportedCommOperationException e) {
-		            System.err.println("Failed to read from or write to the serial port.");
-		        } catch (IOException e) {
-		  	          
-		        } finally {
-		            if (serialPort != null) {
-		            	serialPort.close();		                
-		            }
-		        }
+					 System.err.println("Port " + portName + " not found.");
+					 Platform.runLater(() -> {
+						 Alert alert = new Alert(AlertType.ERROR);
+						 alert.setTitle("Error");
+						 alert.setHeaderText("Port " + portName + " not found.");
+						 alert.showAndWait();
+					 });
+				 } catch (PortInUseException e) {
+					 System.err.println("Port " + portName + " is in use.");
+					 Platform.runLater(() -> {
+						 Alert alert = new Alert(AlertType.ERROR);
+						 alert.setTitle("Error");
+						 alert.setHeaderText("Port " + portName + " is in use.");
+						 alert.showAndWait();
+					 });
+				 } catch (UnsupportedCommOperationException e) {
+					 System.err.println("Failed to read from or write to the serial port.");
+					 Platform.runLater(() -> {
+						 Alert alert = new Alert(AlertType.ERROR);
+						 alert.setTitle("Error");
+						 alert.setHeaderText("Failed to read from or write to the serial port.");
+						 alert.showAndWait();
+					 });
+				 } catch (InterruptedIOException e) {
+					 System.err.println("Time out");
+					 Platform.runLater(() -> {
+						 Alert alert = new Alert(AlertType.ERROR);
+						 alert.setTitle("Error");
+						 alert.setHeaderText("Time out");
+						 alert.showAndWait();
+					 });
+				 } catch (IOException e) {
+
+				 } finally {
+					 if (serialPort != null) {
+						 serialPort.close();
+					 }
+				 }
 		   	 
      }
 
-	public Double getTemperature() {
+	public synchronized  Double getTemperature() {
 		String meas = this.quary("FETch?\n");		
 		return Double.parseDouble(meas);
 	}
-	public Double getCurrent() {
+	public synchronized Double getCurrent() {
 		String meas = this.quary("READ?\n");		
 		return Double.parseDouble(meas.replaceAll(",.*$", ""));
 	}
