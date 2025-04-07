@@ -29,7 +29,7 @@ public class MainController {
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		stage = new Stage();
 		stage.setResizable(false);
-		stage.setTitle("Pyrocurrent Program v1.05");
+		stage.setTitle("Pyrocurrent Program v1.06");
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();

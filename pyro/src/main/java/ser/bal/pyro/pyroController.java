@@ -437,7 +437,6 @@ public class pyroController {
   					   ";SYST:ZCOR\sON\n"+             	
   					   ";SYST:ZCH\sOFF\n"+
   					   ";SENS:CURR:RANG\s1e-9\n"+
-  					   ";SENS:CURR:RANG:AUTO\sON\n"+
   					   ";SYST:RWLock\n"+
   					   ";INIT\n");
             	

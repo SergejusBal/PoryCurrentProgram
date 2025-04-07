@@ -200,9 +200,43 @@ public class RS232coms {
 		String meas = this.quary("FETch?\n");		
 		return Double.parseDouble(meas);
 	}
+
+
+
+
+
+
 	public synchronized Double getCurrent() {
-		String meas = this.quary("READ?\n");		
-		return Double.parseDouble(meas.replaceAll(",.*$", ""));
+		String meas = this.quary("READ?\n");
+		Double current = Double.parseDouble(meas.replaceAll(",.*$", ""));
+
+		adjustRange(current);
+
+		return current;
 	}
-		 
+
+
+	private final double[] ranges = {
+			2e-2, 2e-3, 2e-4, 2e-5, 2e-6, 2e-7, 2e-8, 2e-9, 2e-10, 2e-11
+	};
+
+	private int currentRangeIndex = 0;
+
+	private void adjustRange(Double measuredCurrent) {
+		double absCurrent = Math.abs(measuredCurrent);
+		int newRangeIndex = currentRangeIndex;
+
+		if (absCurrent > ranges[currentRangeIndex] * 0.95 && currentRangeIndex > 0) {
+			newRangeIndex--;
+		} else if (absCurrent < ranges[currentRangeIndex] * 0.090 && currentRangeIndex < ranges.length - 1) {
+			newRangeIndex++;
+		}
+
+		if (newRangeIndex != currentRangeIndex) {
+			currentRangeIndex = newRangeIndex;
+			String rangeCommand = String.format("SENS:CURR:RANG %e\n", ranges[currentRangeIndex]);
+			this.write(rangeCommand);
+		}
+	}
+
 }
